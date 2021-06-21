@@ -19,7 +19,7 @@ Mockito, Docker, PostgreSQL.
     bash run.sh
   <br>
     
-  Logo os passos acima serem executados você poderá iniciar o projeto que se encontra na pasta user utilizando Java 11. Logo na inicizalização o usuário padrão será criado com as credenciais <br><br>
+  Logo os passos acima serem executados você poderá iniciar o projeto que se encontra na pasta user utilizando Java 11. Na inicizalização o usuário padrão será criado com as credenciais <br><br>
   **username:** root<br>
   **password:** root@123456
   
