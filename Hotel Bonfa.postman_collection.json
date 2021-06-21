@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "04fcf3df-94e7-4ab4-89b0-adabcebfd4a9",
+		"name": "Hotel Bonfa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"root\",\r\n    \"password\":\"root@123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODMxMzQ4LCJpYXQiOjE2MjQyOTEzNDh9.WEg_r1_6WtLB-Qg49At4vZ_kBBz06a2vvBQFT7RfzrKz2u47OJxyLXiRdXfmSdXzyGuTrwAvmh4kdm8G96Tvyw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"client\",\r\n    \"password\":\"123456\",\r\n    \"alias\":\"client\",\r\n    \"email\":\"lbonfaaraujo@gmail.com\",\r\n    \"phone\":\"12988914666\",\r\n    \"document\":\"34656312852\",\r\n    \"roles\":[\"client\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoadAll",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODMxMzQ4LCJpYXQiOjE2MjQyOTEzNDh9.WEg_r1_6WtLB-Qg49At4vZ_kBBz06a2vvBQFT7RfzrKz2u47OJxyLXiRdXfmSdXzyGuTrwAvmh4kdm8G96Tvyw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LoadUserByNameOrDocumentOrPhone",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODMxMzQ4LCJpYXQiOjE2MjQyOTEzNDh9.WEg_r1_6WtLB-Qg49At4vZ_kBBz06a2vvBQFT7RfzrKz2u47OJxyLXiRdXfmSdXzyGuTrwAvmh4kdm8G96Tvyw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/user/129889146",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"user",
+						"129889146"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbGllbnQxMjMiLCJleHAiOjE2MjQ4MzQ5MzAsImlhdCI6MTYyNDI5NDkzMH0.bG_c_ylrugwnlySlYFWGveF2jL_RL6qFIgdBsufr8vRn8VwAHmQbaRdoUWguhsHo6O1RFuzNTOzfIy477T8oGQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"root@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/user/0ca83b98-3de6-4341-b057-a8b2c4e162c1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"user",
+						"0ca83b98-3de6-4341-b057-a8b2c4e162c1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load All Bookings",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/booking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Booking By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Create Booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"0ca83b98-3de6-4341-b057-a8b2c4e162c1\",\r\n    \"begin\": \"2021-06-18 16:46:00\",\r\n    \"end\": \"2021-06-20 16:46:00\",\r\n    \"garage\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/booking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\":\"rejected\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/booking/23082816-e45c-49a8-acf3-97ad7025e654",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"booking",
+						"23082816-e45c-49a8-acf3-97ad7025e654"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check In",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/booking/23082816-e45c-49a8-acf3-97ad7025e654/checkIn",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"booking",
+						"23082816-e45c-49a8-acf3-97ad7025e654",
+						"checkIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"products\":{\r\n        \"coke\":2,\r\n        \"chocolate\":1\r\n    }\r\n}\r\n//  COKE : QTD\r\n//  CHOCOLATE : QTD\r\n//  WATER : QTD\r\n//  PEANUTS : QTD",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/booking/23082816-e45c-49a8-acf3-97ad7025e654/checkOut",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"booking",
+						"23082816-e45c-49a8-acf3-97ad7025e654",
+						"checkOut"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Bills",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/bill",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"bill"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Bill by Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/bill/c559df3d-6bb1-4c05-adc0-3020b614550b",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"bill",
+						"c559df3d-6bb1-4c05-adc0-3020b614550b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Bill by Booking Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb290IiwiZXhwIjoxNjI0ODM1MDkwLCJpYXQiOjE2MjQyOTUwOTB9.qOzKG4HNH7KD4S3Y-y_HBKldJLKrZ_NeWPOuo06mrezepyKVnB34e0FRJU7Q7GN2EhlBP9bY4sIrLxBdawORmw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/bill/c559df3d-6bb1-4c05-adc0-3020b614550b",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"bill",
+						"c559df3d-6bb1-4c05-adc0-3020b614550b"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
