@@ -1,6 +1,6 @@
 # cancun-hotel-spring
 
-Project that aims to do the basic management of a check in and check out service of a hotel. This project has the following main dependencies: Lombok, Spring, Hibernate, Mockito, Docker, PostgreSQL.
+Project that aims to do the basic management of a check in and check out service of a hotel. This project has the following main dependencies: Lombok, Spring, Hibernate, Mockito, Docker, PostgreSQL ,Flyway.
 
 <h2>🛠 Getting Started</h2>
 
