@@ -12,6 +12,8 @@ import com.alten.hotel.common.enums.CommonStatus;
 import com.alten.hotel.common.exception.exceptions.NotFoundException;
 import com.alten.hotel.common.exception.exceptions.UnauthorizedException;
 import com.alten.hotel.user.entity.UserEntity;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -39,10 +41,11 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingServiceTest {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+class BookingServiceTest {
 
     @Mock
-    private BookingRepository bookingRepository;
+    BookingRepository bookingRepository;
 
     @Mock
     BookingDtoToEntityMapper bookingEntityMapper;
@@ -58,7 +61,7 @@ public class BookingServiceTest {
 
     @Spy
     @InjectMocks
-    private BookingService bookingService;
+    BookingService bookingService;
 
     @Before
     public void setUp() {
@@ -88,6 +91,48 @@ public class BookingServiceTest {
     }
 
     @Test
+    public void foundByIdTest() {
+        Instant currentTime = Instant.now();
+
+        BookingEntity bookingEntity = new BookingEntity();
+        bookingEntity.setId(UUID.randomUUID());
+        bookingEntity.setBegin(currentTime);
+        bookingEntity.setEnd(currentTime);
+
+        BookingRecord bookingRecord = BookingRecord.builder().bookingId(bookingEntity.getId()).build();
+
+        when(bookingRepository.findById(bookingEntity.getId())).thenReturn(Optional.of(bookingEntity));
+        when(bookingRecordMapper.mapNonNull(bookingEntity)).thenReturn(bookingRecord);
+
+        BookingRecord booking = bookingService.findById(bookingEntity.getId());
+
+        Assertions.assertThat(bookingEntity.getId()).isEqualTo(booking.getBookingId());
+
+        verify(bookingRepository, times(1)).findById(bookingEntity.getId());
+        verify(bookingRecordMapper, times(1)).mapNonNull(bookingEntity);
+
+        InOrder order = Mockito.inOrder(bookingRepository, bookingRecordMapper);
+        order.verify(bookingRepository).findById(bookingEntity.getId());
+        order.verify(bookingRecordMapper).mapNonNull(bookingEntity);
+        order.verifyNoMoreInteractions();
+    }
+
+    @Test
+    public void foundNoneByIdTest() {
+        UUID bookingId = UUID.randomUUID();
+
+        assertThrows(NotFoundException.class, () -> {
+            bookingService.findById(bookingId);
+        });
+
+        verify(bookingRepository, times(1)).findById(bookingId);
+
+        InOrder order = Mockito.inOrder(bookingRepository);
+        order.verify(bookingRepository).findById(bookingId);
+        order.verifyNoMoreInteractions();
+    }
+
+    @Test
     public void cancelWithBookingFoundTest() {
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setId(UUID.randomUUID());
@@ -98,7 +143,7 @@ public class BookingServiceTest {
         when(bookingRepository.save(bookingEntity)).thenReturn(bookingEntity);
         when(bookingRecordMapper.mapNonNull(bookingEntity)).thenReturn(bookingRecord);
 
-        BookingRecord bookingResult = bookingService.delete(bookingEntity.getId().toString());
+        BookingRecord bookingResult = bookingService.delete(bookingEntity.getId());
 
         Assertions.assertThat(CommonStatus.UNACTIVE).isEqualTo(bookingResult.getStatus());
 
@@ -119,7 +164,7 @@ public class BookingServiceTest {
         bookingEntity.setId(UUID.randomUUID());
 
         Exception exception = assertThrows(NotFoundException.class, () -> {
-            bookingService.delete(bookingEntity.getId().toString());
+            bookingService.delete(bookingEntity.getId());
         });
 
         Assertions.assertThat(exception.getMessage().contains("Couldn't find booking with this id")).isTrue();
@@ -278,7 +323,7 @@ public class BookingServiceTest {
         when(bookingRepository.save(bookingEntity)).thenReturn(bookingEntity);
         when(bookingRecordMapper.mapNonNull(bookingEntity)).thenReturn(bookingRecord);
 
-        BookingRecord bookingUpdated = bookingService.update(bookingEntity.getId().toString(), dto);
+        BookingRecord bookingUpdated = bookingService.update(bookingEntity.getId(), dto);
 
         Assertions.assertThat(begin).isEqualTo(bookingUpdated.getBegin());
         Assertions.assertThat(end).isEqualTo(bookingUpdated.getEnd());
@@ -316,7 +361,7 @@ public class BookingServiceTest {
         when(bookingRepository.findById(bookingId)).thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> {
-            bookingService.update(bookingId.toString(), dto);
+            bookingService.update(bookingId, dto);
         });
 
         verify(bookingValidator, times(1)).validate(dto);
@@ -344,7 +389,7 @@ public class BookingServiceTest {
         doReturn(true).when(bookingService).verifyBookingExistence(begin, end);
 
         assertThrows(UnauthorizedException.class, () -> {
-            bookingService.update(bookingId.toString(), dto);
+            bookingService.update(bookingId, dto);
         });
 
         verify(bookingValidator, times(1)).validate(dto);

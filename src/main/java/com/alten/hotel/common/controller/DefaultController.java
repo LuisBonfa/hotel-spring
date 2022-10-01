@@ -30,7 +30,7 @@ public abstract class DefaultController<D, R> {
     public DefaultService<D, R> service;
 
     @Autowired
-    public final void setService(DefaultService<D, R> service) {
+    public void setService(DefaultService<D, R> service) {
         this.service = service;
     }
 
@@ -40,7 +40,7 @@ public abstract class DefaultController<D, R> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findOne(@PathVariable String id) {
+    public ResponseEntity<?> findById(@PathVariable String id) {
         return ResponseEntity.ok(service.findById(UUID.fromString(id)));
     }
 

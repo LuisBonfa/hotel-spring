@@ -4,6 +4,8 @@ import com.alten.hotel.booking.dto.BookingRecord;
 import com.alten.hotel.booking.entity.BookingEntity;
 import com.alten.hotel.common.enums.CommonStatus;
 import com.alten.hotel.user.entity.UserEntity;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -18,10 +20,11 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingEntityToRecordMapperTest {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+class BookingEntityToRecordMapperTest {
 
     @Spy
-    private BookingEntityToRecordMapper bookingDtoMapper;
+    BookingEntityToRecordMapper bookingDtoMapper;
 
     @Before
     public void setUp() {

@@ -9,8 +9,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfiguration {
-
-    //Used to Create docs of the APIs
+    
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

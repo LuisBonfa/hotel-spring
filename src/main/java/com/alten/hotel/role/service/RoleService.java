@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,7 @@ public class RoleService implements DefaultService<RoleDTO, RoleRecord> {
         throw new NotFoundException("Couldn't find role with this id");
     }
 
-    public List<RoleEntity> findByNameIn(List<String> roles) {
+    public Set<RoleEntity> findByNameIn(List<String> roles) {
         return roleRepository.findByNameIn(roles);
     }
 }

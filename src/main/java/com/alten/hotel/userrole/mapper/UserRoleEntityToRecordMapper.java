@@ -12,7 +12,7 @@ public class UserRoleEntityToRecordMapper implements Mapper<UserRoleEntity, User
     public UserRoleRecord mapNonNull(UserRoleEntity userRole) {
         return UserRoleRecord.builder()
                 .role(userRole.getRole().getName())
-                .user(userRole.getUser().getAlias())
+                .user(userRole.getUser().getName())
                 .status(userRole.getStatus())
                 .build();
     }

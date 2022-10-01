@@ -65,7 +65,7 @@ public class UserEntity extends Updatable {
     @Column(nullable = false)
     private CommonStatus status;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles;
 
     @JsonBackReference

@@ -1,24 +1,26 @@
-package com.alten.hotel.booking.apitest.booking;
+package com.alten.hotel.booking.controller;
 
-import com.alten.hotel.HotelApplication;
-import com.alten.hotel.booking.controller.BookingController;
 import com.alten.hotel.booking.entity.BookingEntity;
 import com.alten.hotel.booking.repository.BookingRepository;
+import com.alten.hotel.bookinghistory.repository.BookingHistoryRepository;
 import com.alten.hotel.common.enums.CommonStatus;
 import com.alten.hotel.user.entity.UserEntity;
 import com.alten.hotel.user.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -28,36 +30,47 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
-@Transactional
-@AutoConfigureMockMvc
-@SpringBootTest(classes = {HotelApplication.class})
-@ContextConfiguration(classes = {BookingApiTest.class})
-public class BookingApiTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+class BookingControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    WebApplicationContext context;
+
+    MockMvc mockMvc;
 
     @Autowired
-    private BookingController bookingController;
+    BookingRepository bookingRepository;
 
     @Autowired
-    private BookingRepository bookingRepository;
+    BookingHistoryRepository bookingHistoryRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+
+    @BeforeEach
+    public void setup() {
+        this.mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @AfterEach
     public void tearDown() {
+        bookingHistoryRepository.deleteAll();
         bookingRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @Test
+    @WithMockUser("admin")
     public void listAllBookingsTest() throws Exception {
         createBooking();
         MvcResult mvcResult = this.mockMvc.perform(get("/booking")).andReturn();
@@ -66,6 +79,7 @@ public class BookingApiTest {
     }
 
     @Test
+    @WithMockUser("admin")
     public void evaluateExistenceFalseTest() throws Exception {
         createBooking();
         LocalDate currentDate = LocalDate.now();
@@ -79,6 +93,7 @@ public class BookingApiTest {
     }
 
     @Test
+    @WithMockUser("admin")
     public void evaluateExistenceTrueTest() throws Exception {
         createBooking();
         LocalDate currentDate = LocalDate.now();
@@ -92,6 +107,7 @@ public class BookingApiTest {
     }
 
     @Test
+    @WithMockUser("admin")
     public void cancelBookingTest() throws Exception {
         createBooking();
         List<BookingEntity> bookingEntityList = bookingRepository.findAll();
@@ -104,6 +120,7 @@ public class BookingApiTest {
     }
 
     @Test
+    @WithMockUser("admin")
     public void saveBookingTest() throws Exception {
         UserEntity user = createUser();
         LocalDate currentDate = LocalDate.now();
@@ -122,6 +139,7 @@ public class BookingApiTest {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateBookingTest() throws Exception {
         BookingEntity bookingEntity = createBooking();
 
@@ -137,6 +155,19 @@ public class BookingApiTest {
 
         Assertions.assertThat(body.getString("begin")).isEqualTo(json.getString("begin"));
         Assertions.assertThat(body.getString("end")).isEqualTo(json.getString("end"));
+        Assertions.assertThat(bookingEntity.getUser().getId()).isEqualTo(UUID.fromString(json.getString("userId")));
+        Assertions.assertThat(bookingEntity.getId()).isEqualTo(UUID.fromString(json.getString("bookingId")));
+    }
+
+    @Test
+    @WithMockUser("admin")
+    public void findByIdTest() throws Exception {
+        BookingEntity bookingEntity = createBooking();
+
+        String getUrl = String.format("/booking/%s", bookingEntity.getId());
+        MvcResult mvcResult = this.mockMvc.perform(get(getUrl)).andReturn();
+        JSONObject json = new JSONObject(mvcResult.getResponse().getContentAsString());
+
         Assertions.assertThat(bookingEntity.getUser().getId()).isEqualTo(UUID.fromString(json.getString("userId")));
         Assertions.assertThat(bookingEntity.getId()).isEqualTo(UUID.fromString(json.getString("bookingId")));
     }

@@ -23,6 +23,7 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class UserService implements DefaultService<UserDTO, UserRecord> {
     @Override
     public UserRecord save(UserDTO data) {
         try {
-            List<RoleEntity> roles = roleService.findByNameIn(data.getRoles());
+            Set<RoleEntity> roles = roleService.findByNameIn(data.getRoles());
             UserEntity user = userEntityMapper.mapNonNull(data);
             List<UserRoleEntity> userRoles = new ArrayList<>();
             roles.forEach(role -> {
@@ -72,6 +73,14 @@ public class UserService implements DefaultService<UserDTO, UserRecord> {
     @Override
     public List<UserRecord> findAll() {
         return userRepository.findAll().stream().map(userRecordMapper::mapNonNull).collect(Collectors.toList());
+    }
+
+    public UserEntity findByEmail(String email) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new NotFoundException("User with this name not found!");
     }
 
     @Override

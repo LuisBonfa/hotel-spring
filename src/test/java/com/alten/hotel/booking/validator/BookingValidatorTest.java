@@ -2,21 +2,24 @@ package com.alten.hotel.booking.validator;
 
 import com.alten.hotel.booking.dto.BookingDTO;
 import com.alten.hotel.common.exception.exceptions.ValidationException;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
 @ExtendWith(MockitoExtension.class)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingValidatorTest {
 
-    @InjectMocks
-    private BookingValidator bookingValidator;
+    @Spy
+    BookingValidator bookingValidator;
 
     @Before
     public void setUp() {

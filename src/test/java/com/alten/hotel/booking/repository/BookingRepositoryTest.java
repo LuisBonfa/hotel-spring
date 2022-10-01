@@ -1,31 +1,41 @@
 package com.alten.hotel.booking.repository;
 
-import com.alten.hotel.HotelApplication;
 import com.alten.hotel.booking.entity.BookingEntity;
+import com.alten.hotel.bookinghistory.repository.BookingHistoryRepository;
 import com.alten.hotel.common.enums.CommonStatus;
 import com.alten.hotel.user.entity.UserEntity;
 import com.alten.hotel.user.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 
-@Transactional
-@SpringBootTest(classes = {HotelApplication.class})
-@ContextConfiguration(classes = {BookingRepositoryTest.class})
-public class BookingRepositoryTest {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class BookingRepositoryTest {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    BookingRepository bookingRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    BookingHistoryRepository bookingHistoryRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @AfterEach
+    public void tearDown() {
+        bookingHistoryRepository.deleteAll();
+        bookingRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     public void existsBetweenDatesFalseTest() {

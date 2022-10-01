@@ -5,8 +5,6 @@ import com.alten.hotel.bookinghistory.dto.BookingHistoryRecord;
 import com.alten.hotel.bookinghistory.entity.BookingHistoryEntity;
 import com.alten.hotel.bookinghistory.repository.BookingHistoryRepository;
 import com.alten.hotel.common.mapper.Mapper;
-import com.alten.hotel.common.service.FindAll;
-import com.alten.hotel.common.service.Save;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -19,17 +17,15 @@ import java.util.stream.Collectors;
 @Service
 @Setter(onMethod_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookingHistoryService implements FindAll<BookingHistoryRecord>, Save<BookingEntity, BookingHistoryEntity> {
+public class BookingHistoryService {
 
     BookingHistoryRepository repository;
     Mapper<BookingHistoryEntity, BookingHistoryRecord> bookingHistoryRecordMapper;
-    
-    @Override
+
     public List<BookingHistoryRecord> findAll() {
         return repository.findAll().stream().map(bookingHistoryRecordMapper::mapNonNull).collect(Collectors.toList());
     }
 
-    @Override
     public BookingHistoryEntity save(BookingEntity bookingEntity) {
         BookingHistoryEntity bookingHistory = new BookingHistoryEntity();
         bookingHistory.setBegin(bookingEntity.getBegin());

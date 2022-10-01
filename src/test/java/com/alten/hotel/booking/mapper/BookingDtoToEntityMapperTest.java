@@ -5,6 +5,8 @@ import com.alten.hotel.booking.entity.BookingEntity;
 import com.alten.hotel.common.enums.CommonStatus;
 import com.alten.hotel.common.utils.DateControl;
 import com.alten.hotel.user.entity.UserEntity;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -18,11 +20,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingDtoToEntityMapperTest {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+class BookingDtoToEntityMapperTest {
 
     @Spy
     @InjectMocks
-    private BookingDtoToEntityMapper bookingEntityMapper;
+    BookingDtoToEntityMapper bookingEntityMapper;
 
     @Before
     public void setUp() {

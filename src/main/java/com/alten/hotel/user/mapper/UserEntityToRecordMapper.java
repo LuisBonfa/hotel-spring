@@ -21,7 +21,7 @@ public class UserEntityToRecordMapper implements Mapper<UserEntity, UserRecord> 
                 .document(user.getDocument())
                 .phone(user.getPhone())
                 .status(user.getStatus())
-                .roles(user.getUserRoles().stream().map(userRole -> userRole.getRole().getName()).collect(Collectors.toList()))
+                .roles(user.getUserRoles().stream().map(userRoleEntity -> userRoleEntity.getRole().getName()).collect(Collectors.toList()))
                 .build();
     }
 }
